@@ -1,5 +1,5 @@
 var app = require('express')();
-// var http = require('http').Server(app);
+var http = require('https').Server(app);
 var io = require('socket.io')(http);
 const bodyParse = require('body-parser');
 const mongoose = require('mongoose');
@@ -94,6 +94,6 @@ mongoose.connect("mongodb://musicbattleperfect:musicbattleperfect98@ds161092.mla
 })
 
 
-app.listen(process.env.PORT || 1998, function () {
+http.listen(process.env.PORT || 1998, function () {
     console.log('listening on *:1998');
 });
