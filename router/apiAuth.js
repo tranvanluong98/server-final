@@ -65,6 +65,6 @@ apiAuth.get('/logout', (req, res) => {
 
 apiAuth.get('/login/check', (req, res) => {
   if(req.session.user) res.send({success: 1, user: req.session.user});
-  else res.status.send({success: 0, message: "failed"})
+  else res.status(401).send({success: 0, message: "failed"})
 })
 module.exports = apiAuth;
