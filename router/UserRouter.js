@@ -55,14 +55,11 @@ Router.post('/', (req, res) => {
 
 })
 
-
-
 Router.put('/:IDuser', async (req, res) => {
     // Only info edited
     console.log("update info")
-    const { password, avatarUrl } = req.body;
-    const updateInfo = { password, avatarUrl }
-
+    const { password, avatarUrl, allPoint } = req.body;
+    const updateInfo = { password, avatarUrl, allPoint }
     try {
         let UserFound = await UserModel.findById(req.params.IDuser);
         if (!UserFound) res.status(404).send({ success: 0, message: "user don't exist!" })
@@ -76,8 +73,15 @@ Router.put('/:IDuser', async (req, res) => {
                         UserFound.hashPassword = bcrypt.hashSync(updateInfo.password, salt)
                     }
                 }
-                if (updateInfo[key]) {
-                    UserFound[key] = updateInfo[key];
+                else {
+                    if (key == 'allPoint' && updateInfo[key]) {
+                        UserFound[key] += parseInt(updateInfo[key]);
+                    }
+                    else {
+                        if (updateInfo[key]) {
+                            UserFound[key] = updateInfo[key];
+                        }
+                    }
                 }
             }
             const userUpdated = await UserFound.save();
@@ -87,6 +91,38 @@ Router.put('/:IDuser', async (req, res) => {
         res.status(500).send({ succes: 0, mess: err })
     }
 })
+
+
+// Router.put('/:IDuser', async (req, res) => {
+//     // Only info edited
+//     console.log("update info")
+//     const { password, avatarUrl } = req.body;
+//     const updateInfo = { password, avatarUrl }
+
+//     try {
+//         let UserFound = await UserModel.findById(req.params.IDuser);
+//         if (!UserFound) res.status(404).send({ success: 0, message: "user don't exist!" })
+//         else {
+//             for (let key in updateInfo) {
+//                 // check new password 
+//                 if (key == 'password' && updateInfo[key]) {
+//                     let compare = bcrypt.compareSync(updateInfo.password, UserFound.hashPassword)
+//                     if (!compare) {
+//                         let salt = bcrypt.genSaltSync()
+//                         UserFound.hashPassword = bcrypt.hashSync(updateInfo.password, salt)
+//                     }
+//                 }
+//                 if (updateInfo[key]) {
+//                     UserFound[key] = updateInfo[key];
+//                 }
+//             }
+//             const userUpdated = await UserFound.save();
+//             res.send({ success: 1, userUpdated })
+//         }
+//     } catch (err) {
+//         res.status(500).send({ succes: 0, mess: err })
+//     }
+// })
 
 // Delete User 
 
