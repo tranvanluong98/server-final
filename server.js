@@ -15,6 +15,13 @@ app.use(bodyParse.json());
 //     res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
 //     next();
 // });
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header('Access-Control-Allow-Credentials', 'true')
+    res.header("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS");
+    next();
+});
 app.use(cors({ origin: [ 'https://battlenow.herokuapp.com' ], credentials: true }));
 app.use(session({
     secret:"nothing in here",
