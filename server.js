@@ -95,7 +95,7 @@ io.on('connection', function (socket) {
 
 
 
-mongoose.connect("mongodb://musicbattleperfect:musicbattleperfect98@ds161092.mlab.com:61092/musicbattleperfect", { useNewUrlParser: true }, function (err) {
+mongoose.connect("mongodb://projecthust:projecthust@ds335648.mlab.com:35648/battlenow", { useNewUrlParser: true }, function (err) {
     if (err) console.log(err);
     else console.log("DB ready");
 })
